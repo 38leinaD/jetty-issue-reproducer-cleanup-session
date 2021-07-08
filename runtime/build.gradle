@@ -1,0 +1,101 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations.all {
+    exclude group: 'org.jboss.spec.javax.resource'
+    exclude group: 'org.jboss.spec.javax.transaction'
+    exclude group: 'org.jboss.spec.javax.el'
+    exclude group: 'org.jboss.spec.javax.interceptor'
+    exclude group: 'org.jboss.spec.javax.resource'
+    exclude group: 'org.jboss.spec.javax.annotation'
+    exclude group: 'org.jboss.spec.javax.transaction'
+    exclude group: 'jakarta.ejb'
+
+    exclude group: 'jakarta.el'
+    exclude group: 'javax.annotation'
+    exclude group: 'javax.validation'
+    exclude group: 'javax.ws.rs'
+    exclude group: 'org.glassfish.hk2.external', module: 'jakarta.inject'
+    exclude group: 'org.glassfish.web', module: 'javax.el'
+    exclude group: 'org.hibernate', module: 'hibernate-validator'
+    exclude group: 'org.mortbay.jasper', module: 'apache-el'
+}
+
+dependencies {
+    //implementation platform('com.dieboldnixdorf.txm.externals:externals:3.1.0-+')
+
+    implementation project(':module-wf')
+
+    implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:2.0.2'
+
+    // Weld SE  
+    implementation platform ('org.jboss.weld:weld-core-bom:3.1.5.Final')
+    implementation 'org.jboss.weld.se:weld-se-core' 
+
+    implementation 'org.glassfish:jakarta.el:3.0.2'
+    implementation 'org.hibernate:hibernate-validator-cdi:6.1.5.Final'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+
+    // Servlet etc.
+    implementation platform ('org.eclipse.jetty:jetty-bom:9.4.42.v20210604')
+    implementation 'org.eclipse.jetty:jetty-webapp'
+    implementation 'org.eclipse.jetty:jetty-server'
+    implementation 'org.eclipse.jetty:jetty-annotations'
+    implementation 'org.eclipse.jetty:jetty-servlet'
+    implementation 'org.eclipse.jetty:jetty-cdi:9.4.42.v20210604'
+
+    implementation 'org.jboss.weld.servlet:weld-servlet-core'
+
+    implementation ("org.eclipse.jetty.websocket:javax-websocket-server-impl")
+    implementation ("org.eclipse.jetty.websocket:javax-websocket-client-impl")
+
+    // JSF
+    implementation    'org.eclipse.jetty:apache-jsp'
+    implementation    'org.eclipse.jetty:apache-jstl'
+    implementation 'org.apache.myfaces.core:myfaces-api:2.3.8'
+    implementation 'org.apache.myfaces.core:myfaces-impl:2.3.8'
+}
+
+group 'org.acme'
+version '1.0.0-SNAPSHOT'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+// https://stackoverflow.com/questions/30255760/bean-discovery-problems-when-using-weld-se-with-gradle-application-plugin
+task copyResources(type: Copy) {
+    from "${projectDir}/src/main/resources"
+    into "${buildDir}/classes/java/main"
+}
+
+processResources.dependsOn copyResources
+application {
+    mainClass = 'Starter'
+}
+

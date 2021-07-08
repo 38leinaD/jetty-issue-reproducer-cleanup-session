@@ -1,0 +1,4 @@
+rootProject.name = 'jetty-sandbox-root'
+
+include 'runtime'
+include 'module-wf'

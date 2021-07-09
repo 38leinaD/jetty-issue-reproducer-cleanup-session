@@ -55,12 +55,6 @@ dependencies {
 
     implementation ("org.eclipse.jetty.websocket:javax-websocket-server-impl")
     implementation ("org.eclipse.jetty.websocket:javax-websocket-client-impl")
-
-    // JSF
-    implementation    'org.eclipse.jetty:apache-jsp'
-    implementation    'org.eclipse.jetty:apache-jstl'
-    implementation 'org.apache.myfaces.core:myfaces-api:2.3.8'
-    implementation 'org.apache.myfaces.core:myfaces-impl:2.3.8'
 }
 
 group 'org.acme'

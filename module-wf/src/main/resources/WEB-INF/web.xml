@@ -2,7 +2,15 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>helloServlet</servlet-name>
+        <servlet-class>acme.AServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>helloServlet</servlet-name>
+        <url-pattern>hello</url-pattern>
+    </servlet-mapping>
     <context-param>
         <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
         <param-value>true</param-value>
